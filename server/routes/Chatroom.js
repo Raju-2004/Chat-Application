@@ -44,10 +44,14 @@ router.get('/',auth,async(req,res)=>{
     res.json(chatrooms);
 })
 
-// router.get('/:id/message',auth,async(req,res)=>{
-//     const messages = await Message.find();
-//     res.json(messages);
-// })
+router.get('/:id/messages', auth, async (req, res) => {
+    const chatroom = req.params.id;
+    // Now you can use userId to filter messages or perform any other operations based on the user ID
+    const messages = await Message.find({ chatroom : chatroom});
+    console.log(messages);
+    res.json(messages);
+})
+
 
 
 module.exports = router

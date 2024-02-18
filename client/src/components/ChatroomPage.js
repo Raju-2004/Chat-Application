@@ -29,8 +29,30 @@ const ChatroomPage = () => {
       }
     };
     //eslint-disable-next-line
-    // fetch('http://localhost/4000/chatroom/:id/messages')
   }, []);
+
+
+  useEffect(()=>{
+    fetch(`http://localhost:4000/chatrooms/${ChatroomId}/messages`, {
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("CC_Token"),
+      },
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch chatrooms");
+        }
+        return response.json(); // Parse the JSON response
+      })
+      .then((data) => {
+        console.log(data)
+        setMessages(data); // Set the chatrooms state with the parsed data
+      })
+      .catch((err) => {
+        console.error("Error fetching roomMessages:", err);
+        /* setTimeout(getChatrooms, 3000); */
+      });
+  },[ChatroomId])
 
   useEffect(() => {
     const token = localStorage.getItem("CC_Token");
@@ -72,7 +94,7 @@ const ChatroomPage = () => {
               <div
                 key={message.sender + message.content}
                 className={
-                  message.userId === userId
+                  message.user === userId
                     ? "flex justify-end"
                     : "flex justify-start"
                 }
@@ -87,7 +109,7 @@ const ChatroomPage = () => {
                   <span className="text-md font-bold text-gray-800">
                     {message.sender}
                   </span>
-                  : {message.content}
+                  : {message.message}
                 </div>
               </div>
             ))}
