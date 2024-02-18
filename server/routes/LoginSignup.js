@@ -35,6 +35,7 @@ router.post('/login',async(req,res)=>{
     try{
         const {Email,Password} = req.body
         const user = await User.findOne({Email})
+        console.log(user);
         if(!User)
         {
             return res.json(400).json({message:"User not found"})
@@ -44,7 +45,7 @@ router.post('/login',async(req,res)=>{
         {
             return res.json(400).json({message : "Invalid Password"})
         }
-        jwt.sign({id:User.id},process.env.ACCESS_SECRET_TOKEN,(err,token)=>{
+        jwt.sign({id:user._id},process.env.ACCESS_SECRET_TOKEN,(err,token)=>{
             if(err) console.error(err)
             res.status(200).json({message : "login successful",token:token})
         })

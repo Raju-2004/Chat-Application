@@ -3,7 +3,8 @@ import { Link } from "react-router-dom";
 import makeToast from "../Toaster";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
-const Login = (props) => {
+import { setupSocket } from '../contexts/SocketContext';
+const Login = () => {
 
 
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ const Login = (props) => {
       const token = localStorage.getItem('CC_Token');
       navigate('/dashboard')
       makeToast("success","signup successful")
-      props.setupSocket()
+      setupSocket()
 
       console.log(data); // You can handle the response here
     } catch (error) {

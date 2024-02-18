@@ -36,14 +36,19 @@ const io = require("socket.io")(server,{
 io.use(async (socket, next) => {
   try {
     const token = socket.handshake.query.token;
+    if (!token) {
+      throw new Error("No token provided");
+    }
     const payload = await jwt.verify(token, process.env.ACCESS_SECRET_TOKEN);
-    console.log(payload)
-    socket.userId = payload.id
+    console.log(JSON.stringify(payload) + "------");
+    socket.userId = payload.id;
     next();
   } catch (err) {
-    console.log(err);
+    console.log("Error verifying token:", err);
+    next(err); // Pass the error to the next middleware or route handler
   }
 });
+
 
 io.on('connection',(socket)=>{
   console.log("Connected : "+ socket.userId)

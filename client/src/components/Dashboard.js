@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { useSocket } from "../contexts/SocketContext";
 
 const Dashboard = () => {
+
+  const socket = useSocket();
   const [chatrooms, setChatrooms] = useState([]);
 
   const getChatrooms = () => {

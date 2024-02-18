@@ -4,6 +4,7 @@ const express = require('express')
 const bcrypt = require('bcrypt')
 const router = express.Router()
 const auth = require('../middlewares/auth')
+const Message = require('../models/Message')
 
 router.post('/', auth, async (req, res) => {
     try {
@@ -42,6 +43,11 @@ router.get('/',auth,async(req,res)=>{
     const chatrooms = await Chatroom.find();
     res.json(chatrooms);
 })
+
+// router.get('/:id/message',auth,async(req,res)=>{
+//     const messages = await Message.find();
+//     res.json(messages);
+// })
 
 
 module.exports = router

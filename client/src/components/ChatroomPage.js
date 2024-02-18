@@ -1,14 +1,18 @@
 import React, { useEffect, useState,useRef } from "react";
 import { useParams } from "react-router-dom";
+import { useSocket } from "../contexts/SocketContext";
 
-const ChatroomPage = (props) => {
-  console.log(props)
-  const socket = props.socket;
-  console.log(socket)
-  const { ChatroomId } = useParams(); // Extract ChatroomId directly
+const ChatroomPage = () => {
+  const socket = useSocket();
+  const params = useParams();
+  /* console.log(params)
+  console.log(socket) */
+  const  ChatroomId = params.id; // Extract ChatroomId directly
+  console.log(ChatroomId);
   const [messages, setMessages] = useState([]);
   const messageRef = useRef(null); // Use ref for input element
   const [userId, setUserId] = React.useState("");
+  console.log(userId)
   useEffect(() => {
     if (socket) {
       socket.emit("joinRoom", {
@@ -25,6 +29,7 @@ const ChatroomPage = (props) => {
       }
     };
     //eslint-disable-next-line
+    // fetch('http://localhost/4000/chatroom/:id/messages')
   }, []);
 
   useEffect(() => {
@@ -47,7 +52,7 @@ const ChatroomPage = (props) => {
       socket.emit("chatroomMessage", {
         ChatroomId,
         message: messageRef.current.value,
-        userId, // Include userId if available
+        userId , // Include userId if available
       });
       messageRef.current.value = "";
     }
