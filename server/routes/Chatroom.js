@@ -38,8 +38,10 @@ router.post('/', auth, async (req, res) => {
 
 
 router.get('/',auth,async(req,res)=>{
-    const chatrooms = await Chatroom.find({});
+    console.log('get chatroom called')
+    const chatrooms = await Chatroom.find();
     res.json(chatrooms);
 })
+
 
 module.exports = router
